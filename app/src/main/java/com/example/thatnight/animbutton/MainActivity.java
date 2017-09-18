@@ -17,21 +17,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mButton = (AnimButton) findViewById(R.id.button);
         mProgress = (ProgressBar) findViewById(R.id.pb_button);
+
         mButton.setWrapper(mButton);
         mButton.setmProgress(mProgress);
-        mButton.setmText("login");
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (changeState) {
-////                    mButton.endAnimation();
-//                    mButton.errorAnimation(view);
-//                    changeState = false;
-//                } else {
                 mButton.startAnimation();
-//                    changeState = true;
-//                }
-//                mButton.errorAnimation();
             }
         });
     }

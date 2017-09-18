@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:anim="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-   >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        >
+        android:layout_centerInParent="true">
 
         <com.example.thatnight.animbutton.AnimButton
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_centerInParent="true"
+            android:layout_margin="10dp"
             android:background="@drawable/selecor_button"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="18sp"
+            anim:duration="300"
+            anim:start_text="Login"
+            anim:end_text="Error"
+            />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        >
+        android:layout_centerInParent="true">
 
         <ProgressBar
             android:id="@+id/pb_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height"
             android:layout_centerInParent="true"
+            android:alpha="0"
             android:indeterminateDrawable="@drawable/bg_progress"
-            android:indeterminateDuration="300"
-            android:visibility="invisible" />
+            android:indeterminateDuration="300" />
 
     </RelativeLayout>
 
 
-</FrameLayout>
+</RelativeLayout>
