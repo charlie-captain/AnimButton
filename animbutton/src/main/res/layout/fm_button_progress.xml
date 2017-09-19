@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
-        <com.example.thatnight.animbutton.AnimButton
+        <com.example.animbutton.AnimButton
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"

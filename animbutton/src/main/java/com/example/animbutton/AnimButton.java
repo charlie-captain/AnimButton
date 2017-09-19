@@ -1,4 +1,4 @@
-package com.example.thatnight.animbutton;
+package com.example.animbutton;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
+
 
 
 /**
@@ -101,7 +102,7 @@ public class AnimButton extends AppCompatButton {
 
     private void initErrorAnim() {
         mEndSet = new AnimatorSet();
-        //创建复原宽度动画
+        //create reverse animation
         ObjectAnimator endAnim = ObjectAnimator.ofInt(mViewWrapper, "width", mWidth);
         endAnim.setDuration(mDuration);
 
@@ -119,7 +120,7 @@ public class AnimButton extends AppCompatButton {
             }
         });
 
-        //创建错误抖动动画
+        //create error animation
         ObjectAnimator errorAnim = ObjectAnimator.ofFloat(mTarget, "X", mPoint[0], mPoint[0] + 10, mPoint[0]);
         errorAnim.setRepeatCount(100);
         errorAnim.setRepeatMode(ValueAnimator.REVERSE);

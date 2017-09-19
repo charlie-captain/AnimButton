@@ -1,15 +1,19 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
+
     defaultConfig {
-        applicationId "com.example.thatnight.animbutton"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -25,7 +29,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0'
-    compile 'com.example.thatnight:animbutton:1.0'
     testCompile 'junit:junit:4.12'
+}
+
+publish {
+    userOrg = 'tonight'
+    groupId = 'com.example.thatnight'
+    artifactId = 'animbutton'
+    version = '1.0'
+    description = 'nice button'
+    website = "https://github.com/thatnight/AnimButton"
 }

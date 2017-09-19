@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.animbutton.AnimButton;
+
 public class MainActivity extends AppCompatActivity {
 
     private AnimButton mButton;
