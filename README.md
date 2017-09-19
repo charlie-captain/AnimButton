@@ -11,14 +11,22 @@
 1. 在app/build.gradle中添加下面一行代码: 
     ```
     dependencies {
-        compile 'com.example.thatnight:animbutton:1.1'
+        compile 'com.example.thatnight:animbutton:1.0'
     }
     ```
 
 2. layout.xml中
 
     ```
-     <include layout="@layout/fm_button_progress" />
+     <com.example.animbutton.AnimButton
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:duration="300"
+        app:start_text="login"
+        app:end_text="error"
+        >
+    </com.example.animbutton.AnimButton>
     ```
     需要修改属性的话, 可以按住ctrl+ 鼠标左键 点击fm_button_progress, 如下
     ```
@@ -54,3 +62,5 @@
 
     就跟原先的Button一样的使用方法.很简单吧
 
+
+    ​    
