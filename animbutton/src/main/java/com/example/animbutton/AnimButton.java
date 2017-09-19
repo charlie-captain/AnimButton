@@ -8,30 +8,31 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 import android.widget.ProgressBar;
-
+import android.widget.RelativeLayout;
 
 
 /**
  * Created by thatnight on 2017.9.16.
  */
 
-public class AnimButton extends AppCompatButton {
+public class AnimButton extends RelativeLayout {
 
     private int mWidth = 0;
     private int mHeight = 0;
-    private int[] mPoint = new int[4];
+    private int mLeft;
     private ViewWrapper mViewWrapper;
-    private AnimButton mTarget;
-    private ProgressBar mProgress;
+    private Button mTarget;
     private int mDuration;
     private String mStartText = "";
     private String mEndText;
     private AnimatorSet mStartSet, mEndSet;
+    private ProgressBar mProgress;
 
     public AnimButton(Context context) {
         this(context, null);
@@ -47,10 +48,17 @@ public class AnimButton extends AppCompatButton {
         mStartText = a.getString(R.styleable.AnimButton_start_text);
         mEndText = a.getString(R.styleable.AnimButton_end_text);
         mDuration = a.getInt(R.styleable.AnimButton_duration, 300);
-        if (mStartText != null && mStartText.length() > 0) {
-            setText(mStartText);
-        }
         a.recycle();
+
+        //inflate layout
+        LayoutInflater.from(context).inflate(R.layout.fm_button_progress, this, true);
+        mProgress = findViewById(R.id.pb_button);
+        mTarget = findViewById(R.id.button);
+        setWrapper(mTarget);
+
+        if (mStartText != null && mStartText.length() > 0) {
+            mTarget.setText(mStartText);
+        }
     }
 
     public void startAnimation() {
@@ -62,7 +70,17 @@ public class AnimButton extends AppCompatButton {
     }
 
     public void errorAnimation() {
-        mEndSet.start();
+        if(mStartSet.isRunning()){
+            mStartSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mEndSet.start();
+                }
+            });
+        }else{
+            mEndSet.start();
+        }
     }
 
     private void initStartAnim() {
@@ -79,13 +97,13 @@ public class AnimButton extends AppCompatButton {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                mTarget.setClickable(false);
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
                 mTarget.setText("");
+                mTarget.setClickable(false);
             }
         });
         ObjectAnimator startAnim = ObjectAnimator.ofInt(mViewWrapper, "width", mWidth, mHeight);
@@ -93,7 +111,6 @@ public class AnimButton extends AppCompatButton {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                errorAnimation();
             }
         });
         mStartSet.setDuration(mDuration);
@@ -121,7 +138,7 @@ public class AnimButton extends AppCompatButton {
         });
 
         //create error animation
-        ObjectAnimator errorAnim = ObjectAnimator.ofFloat(mTarget, "X", mPoint[0], mPoint[0] + 10, mPoint[0]);
+        ObjectAnimator errorAnim = ObjectAnimator.ofFloat(mTarget, "X", mLeft, mLeft + 10, mLeft);
         errorAnim.setRepeatCount(100);
         errorAnim.setRepeatMode(ValueAnimator.REVERSE);
         errorAnim.setDuration(10);
@@ -131,19 +148,14 @@ public class AnimButton extends AppCompatButton {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mTarget.setClickable(true);
-                setText(mStartText);
+                mTarget.setText(mStartText);
             }
         });
         mEndSet.play(progressAnim).with(endAnim).before(errorAnim);
     }
 
-    public void setmProgress(ProgressBar mProgress) {
-        this.mProgress = mProgress;
-    }
-
-    public void setWrapper(AnimButton target) {
-        if (mTarget == null) {
-            mTarget = target;
+    public void setWrapper(Button target) {
+        if (mTarget != null) {
             mViewWrapper = new ViewWrapper(target);
         }
     }
@@ -181,13 +193,17 @@ public class AnimButton extends AppCompatButton {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mWidth == 0 && mHeight == 0) {
-            mWidth = getWidth();
-            mHeight = getHeight();
-            mPoint[0] = left;
-            mPoint[1] = top;
-            mPoint[2] = right;
-            mPoint[3] = bottom;
+            mWidth = mTarget.getMeasuredWidth();
+            mHeight = mTarget.getMeasuredHeight();
+            mLeft = mTarget.getLeft();
         }
     }
+
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        mTarget.setOnClickListener(l);
+    }
+
 
 }

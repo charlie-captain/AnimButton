@@ -7,5 +7,16 @@
     tools:context="com.example.thatnight.animbutton.MainActivity">
 
 
-    <include layout="@layout/fm_button_progress" />
+    <!--<include layout="@layout/fm_button_progress" />-->
+
+    <com.example.animbutton.AnimButton
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:duration="300"
+        app:start_text="login"
+        app:end_text="error"
+        >
+    </com.example.animbutton.AnimButton>
+
 </RelativeLayout>
