@@ -11,7 +11,7 @@
 1. 在app/build.gradle中添加下面一行代码: 
     ```
     dependencies {
-        compile 'com.example.thatnight:animbutton:1.0'
+        compile 'com.example.thatnight:animbutton:1.2'
     }
     ```
 
