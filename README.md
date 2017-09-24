@@ -11,12 +11,12 @@
 1. 在app/build.gradle中添加下面一行代码: 
     ```
     dependencies {
-        compile 'com.example.thatnight:animbutton:1.2'
+        compile 'com.example.thatnight:animbutton:1.2'
     }
     ```
-
+    
 2. layout.xml中
-
+    
     ```
      <com.example.animbutton.AnimButton
         android:id="@+id/rl"
@@ -39,13 +39,13 @@
             anim:end_text="Error"           //错误字符串
             />
     ```
-
+    
 3.  activity中
 
     ```
     private AnimButton mButton;
     private ProgressBar mProgress;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +59,6 @@
         });
     }
     ```
-
+    
     就跟原先的Button一样的使用方法.很简单吧
-
-
-    ​    
+    
