@@ -18,18 +18,6 @@
 2. layout.xml中
 
     ```
-     <com.example.animbutton.AnimButton
-        android:id="@+id/rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:duration="300"
-        app:start_text="login"
-        app:end_text="error"
-        >
-    </com.example.animbutton.AnimButton>
-    ```
-    需要修改属性的话, 可以按住ctrl+ 鼠标左键 点击fm_button_progress, 如下
-    ```
     <com.example.animbutton.AnimButton
             android:id="@+id/rl"
             android:layout_width="match_parent"
