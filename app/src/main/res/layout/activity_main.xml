@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.thatnight.animbutton.MainActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.example.thatnight.animbutton.MainActivity">
 
 
     <!--<include layout="@layout/fm_button_progress" />-->
@@ -13,9 +13,13 @@
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:duration="300"
-        app:start_text="login"
+        app:color_normal="@color/colorPrimary"
+        app:color_pressed="@color/colorPrimaryDark"
+        app:color_progress="@color/colorPrimaryDark"
+        app:color_text="@color/white"
         app:end_text="error"
+        app:button_radius="0"
+        app:start_text="login"
         >
     </com.example.animbutton.AnimButton>
 

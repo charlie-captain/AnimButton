@@ -7,14 +7,15 @@
     <shape
         android:innerRadiusRatio="3"
         android:shape="ring"
-        android:thicknessRatio="40"
+        android:thicknessRatio="20"
         android:useLevel="false">
         <gradient
             android:centerColor="@color/colorAccent"
-            android:centerY="0.5"
             android:endColor="@color/white"
             android:startColor="@color/colorAccent"
             android:type="sweep"
             android:useLevel="false" />
     </shape>
+
+
 </rotate>

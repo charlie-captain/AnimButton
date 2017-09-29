@@ -4,5 +4,10 @@
         <attr name="duration" format="integer"></attr>
         <attr name="start_text" format="string"></attr>
         <attr name="end_text" format="string"></attr>
+        <attr name="color_progress" format="color"/>
+        <attr name="color_normal" format="color"/>
+        <attr name="color_pressed" format="color"/>
+        <attr name="color_text" format="color"/>
+        <attr name="button_radius" format="float"/>
     </declare-styleable>
 </resources>

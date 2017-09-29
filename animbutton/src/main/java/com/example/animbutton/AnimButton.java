@@ -7,7 +7,16 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RotateDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.drawable.shapes.Shape;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +43,22 @@ public class AnimButton extends RelativeLayout {
     private AnimatorSet mStartSet, mEndSet;
     private ProgressBar mProgress;
 
+    //static state
+    public static int[] mNormalState = new int[]{};
+    public static int[] mPressedState = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+    public static int[] mDisableState = new int[]{-android.R.attr.state_enabled};
+    public static int[] mSelectedState = new int[]{android.R.attr.state_selected, android.R.attr.state_enabled};
+
+    //radius
+    private float mRadius;
+
+    //color
+    private int mNormalColor;
+    private int mPressedColor;
+    private int mProgressColor;
+    private int mTextColor;
+
+
     public AnimButton(Context context) {
         this(context, null);
     }
@@ -48,19 +73,64 @@ public class AnimButton extends RelativeLayout {
         mStartText = a.getString(R.styleable.AnimButton_start_text);
         mEndText = a.getString(R.styleable.AnimButton_end_text);
         mDuration = a.getInt(R.styleable.AnimButton_duration, 300);
+        mNormalColor = a.getColor(R.styleable.AnimButton_color_normal, ContextCompat.getColor(context, R.color.colorPrimary));
+        mPressedColor = a.getColor(R.styleable.AnimButton_color_pressed, ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        mProgressColor = a.getColor(R.styleable.AnimButton_color_progress, ContextCompat.getColor(context, R.color.colorAccent));
+        mTextColor = a.getColor(R.styleable.AnimButton_color_text, ContextCompat.getColor(context, R.color.colorAccent));
+        mRadius = a.getFloat(R.styleable.AnimButton_button_radius, 0);
         a.recycle();
 
         //inflate layout
         LayoutInflater.from(context).inflate(R.layout.fm_button_progress, this, true);
-        mProgress = findViewById(R.id.pb_button);
-        mTarget = findViewById(R.id.button);
+        mProgress = (ProgressBar) findViewById(R.id.pb_button);
+        setProgressDrawable(context);
+        mTarget = (Button) findViewById(R.id.button);
         setWrapper(mTarget);
+        buildDrawableState();
 
         if (mStartText != null && mStartText.length() > 0) {
             mTarget.setText(mStartText);
         }
     }
 
+    /**
+     * change the button drawable
+     */
+    private void buildDrawableState() {
+        float radius[] = new float[]{mRadius, mRadius, mRadius, mRadius, mRadius, mRadius, mRadius, mRadius};
+        StateListDrawable drawable = new StateListDrawable();
+
+        RoundRectShape rectShape = new RoundRectShape(radius, null, null);
+        ShapeDrawable pressedDrawable = new ShapeDrawable(rectShape);
+        pressedDrawable.getPaint().setColor(mPressedColor);
+        drawable.addState(mPressedState, pressedDrawable);
+
+        ShapeDrawable normalDrawable = new ShapeDrawable(rectShape);
+        normalDrawable.getPaint().setColor(mNormalColor);
+        drawable.addState(mNormalState, normalDrawable);
+        mTarget.setBackground(drawable);
+        mTarget.setTextColor(mTextColor);
+    }
+
+    /**
+     * change the progressbar drawable     * Build.VERSION >= 21(5.0)
+     * @param context
+     */
+    private void setProgressDrawable(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RotateDrawable rotateDrawable = (RotateDrawable) ContextCompat.getDrawable(context, R.drawable.bg_progress);
+            GradientDrawable gradientDrawable = (GradientDrawable) rotateDrawable.getDrawable();
+            if (gradientDrawable != null) {
+                gradientDrawable.setColors(new int[]{mProgressColor, Color.WHITE});
+                rotateDrawable.setDrawable(gradientDrawable);
+                mProgress.setIndeterminateDrawable(rotateDrawable);
+            }
+        }
+    }
+
+    /**
+     * start Animation
+     */
     public void startAnimation() {
         if (mStartSet == null) {
             initStartAnim();
@@ -69,8 +139,11 @@ public class AnimButton extends RelativeLayout {
         mStartSet.start();
     }
 
+    /**
+     * end Animation
+     */
     public void errorAnimation() {
-        if(mStartSet.isRunning()){
+        if (mStartSet.isRunning()) {
             mStartSet.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -78,11 +151,14 @@ public class AnimButton extends RelativeLayout {
                     mEndSet.start();
                 }
             });
-        }else{
+        } else {
             mEndSet.start();
         }
     }
 
+    /**
+     * InitStartAnimation
+     */
     private void initStartAnim() {
         if (mProgress == null || mTarget == null) {
             try {
@@ -117,6 +193,9 @@ public class AnimButton extends RelativeLayout {
         mStartSet.playTogether(progressAnim, startAnim);
     }
 
+    /**
+     * InitErrorAnimation
+     */
     private void initErrorAnim() {
         mEndSet = new AnimatorSet();
         //create reverse animation
@@ -154,6 +233,10 @@ public class AnimButton extends RelativeLayout {
         mEndSet.play(progressAnim).with(endAnim).before(errorAnim);
     }
 
+    /**
+     * init mButton
+     * @param target
+     */
     public void setWrapper(Button target) {
         if (mTarget != null) {
             mViewWrapper = new ViewWrapper(target);
@@ -205,5 +288,8 @@ public class AnimButton extends RelativeLayout {
         mTarget.setOnClickListener(l);
     }
 
-
+    public void setEndText(String endText) {
+        mEndText = endText;
+        initErrorAnim();
+    }
 }
