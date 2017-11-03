@@ -11,24 +11,12 @@
 1. 在app/build.gradle中添加下面一行代码: 
     ```
     dependencies {
-        compile 'com.example.thatnight:animbutton:1.3'
+        compile 'com.example.thatnight:animbutton:1.4'
     }
     ```
 
 2. layout.xml中
 
-    ```
-     <com.example.animbutton.AnimButton
-        android:id="@+id/rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:duration="300"
-        app:start_text="login"
-        app:end_text="error"
-        >
-    </com.example.animbutton.AnimButton>
-    ```
-    需要修改属性的话, 可以按住ctrl+ 鼠标左键 点击fm_button_progress, 如下
     ```
     <com.example.animbutton.AnimButton
             android:id="@+id/rl"
@@ -42,6 +30,7 @@
             app:duration="300"             //动画时长
             app:start_text="Login"         //默认字符串
             app:end_text="Error"           //错误字符串
+            app:size_text="15sp"           //字体大小
             />
     ```
 

@@ -13,11 +13,11 @@ import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -40,6 +40,7 @@ public class AnimButton extends RelativeLayout {
     private int mDuration;
     private String mStartText = "";
     private String mEndText;
+    private int mTextSize;
     private AnimatorSet mStartSet, mEndSet;
     private ProgressBar mProgress;
 
@@ -78,6 +79,13 @@ public class AnimButton extends RelativeLayout {
         mProgressColor = a.getColor(R.styleable.AnimButton_color_progress, ContextCompat.getColor(context, R.color.colorAccent));
         mTextColor = a.getColor(R.styleable.AnimButton_color_text, ContextCompat.getColor(context, R.color.colorAccent));
         mRadius = a.getFloat(R.styleable.AnimButton_button_radius, 0);
+//         = (int) a.getDimension(R.styleable.AnimButton_text_size, 15);
+        mTextSize=a.getDimensionPixelSize(R.styleable.AnimButton_size_text,
+                (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                15,
+                getResources().getDisplayMetrics()));
+
         a.recycle();
 
         //inflate layout
@@ -110,10 +118,12 @@ public class AnimButton extends RelativeLayout {
         drawable.addState(mNormalState, normalDrawable);
         mTarget.setBackground(drawable);
         mTarget.setTextColor(mTextColor);
+        mTarget.setTextSize(TypedValue.COMPLEX_UNIT_PX,mTextSize);
     }
 
     /**
      * change the progressbar drawable     * Build.VERSION >= 21(5.0)
+     *
      * @param context
      */
     private void setProgressDrawable(Context context) {
@@ -235,6 +245,7 @@ public class AnimButton extends RelativeLayout {
 
     /**
      * init mButton
+     *
      * @param target
      */
     public void setWrapper(Button target) {

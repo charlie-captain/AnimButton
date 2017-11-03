@@ -9,5 +9,6 @@
         <attr name="color_pressed" format="color"/>
         <attr name="color_text" format="color"/>
         <attr name="button_radius" format="float"/>
+        <attr name="size_text" format="dimension"/>
     </declare-styleable>
 </resources>
