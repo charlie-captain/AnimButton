@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
-        versionName "1.3"
+        versionName "1.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -36,7 +36,7 @@ publish {
     userOrg = 'tonight'
     groupId = 'com.example.thatnight'
     artifactId = 'animbutton'
-    version = '1.3'
+    version = '1.4'
     description = 'nice button update'
     website = "https://github.com/thatnight/AnimButton"
 }
