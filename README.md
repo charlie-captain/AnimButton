@@ -1,3 +1,7 @@
+# AnimButton
+
+   [ ![Download](https://api.bintray.com/packages/tonight/maven/animbutton/images/download.svg) ](https://bintray.com/tonight/maven/animbutton/_latestVersion)
+
 - ### 前言
 
     以前有接触过这个,不过也只是看到github上面的,看起来很炫酷,最近有看动画这一方面,所以突然兴致大发, 简简单单实现一个自定义的View, 纯动画, 没有什么需要计算的地方.
