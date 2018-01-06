@@ -1,21 +1,18 @@
-# AnimButton
+### 前言
 
-   [ ![Download](https://api.bintray.com/packages/tonight/maven/animbutton/images/download.svg) ](https://bintray.com/tonight/maven/animbutton/_latestVersion)
+以前有接触过这个,不过也只是看到github上面的,看起来很炫酷,最近有看动画这一方面,所以突然兴致大发, 简简单单实现一个自定义的View, 纯动画, 没有什么需要计算的地方.
 
-- ### 前言
+### 效果图
 
-    以前有接触过这个,不过也只是看到github上面的,看起来很炫酷,最近有看动画这一方面,所以突然兴致大发, 简简单单实现一个自定义的View, 纯动画, 没有什么需要计算的地方.
+![img](https://github.com/thatnight/AnimButton/raw/master/Animation.gif)
 
-- ### 效果图
 
-    ![img](https://github.com/thatnight/AnimButton/raw/master/Animation.gif)
-
-- ### 使用方法
+### 使用方法
 
 1. 在app/build.gradle中添加下面一行代码: 
     ```
     dependencies {
-        compile 'com.example.thatnight:animbutton:1.4'
+        compile 'com.example.thatnight:animbutton:1.5'
     }
     ```
 
@@ -29,7 +26,7 @@
             app:color_normal="@color/colorPrimary"		//正常button颜色
             app:color_pressed="@color/colorPrimaryDark"	//按下button颜色
             app:color_progress="@color/colorPrimaryDark"//进度条颜色
-            app:color_text="@color/white"			   //字体颜色			
+            app:color_text="@color/white"			   //字体颜色		
             app:button_radius="0"					  //button圆角
             app:duration="300"             //动画时长
             app:start_text="Login"         //默认字符串
@@ -52,11 +49,17 @@
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mButton.startAnimation();
+            	//do sth
             }
         });
     }
     ```
 
-    就跟原先的Button一样的使用方法.很简单吧
+    就跟原先的Button一样的使用方法.很简单吧.
 
+
+### 版本记录
+
+- #### 1.5
+
+  更新点击事件无需再调用startAnim()方法.

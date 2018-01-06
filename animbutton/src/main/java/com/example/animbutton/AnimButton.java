@@ -1,5 +1,6 @@
 package com.example.animbutton;
 
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -36,7 +37,7 @@ public class AnimButton extends RelativeLayout {
     private int mHeight = 0;
     private int mLeft;
     private ViewWrapper mViewWrapper;
-    private Button mTarget;
+    private CustomButton mTarget;
     private int mDuration;
     private String mStartText = "";
     private String mEndText;
@@ -80,11 +81,11 @@ public class AnimButton extends RelativeLayout {
         mTextColor = a.getColor(R.styleable.AnimButton_color_text, ContextCompat.getColor(context, R.color.colorAccent));
         mRadius = a.getFloat(R.styleable.AnimButton_button_radius, 0);
 //         = (int) a.getDimension(R.styleable.AnimButton_text_size, 15);
-        mTextSize=a.getDimensionPixelSize(R.styleable.AnimButton_size_text,
+        mTextSize = a.getDimensionPixelSize(R.styleable.AnimButton_size_text,
                 (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP,
-                15,
-                getResources().getDisplayMetrics()));
+                        TypedValue.COMPLEX_UNIT_SP,
+                        15,
+                        getResources().getDisplayMetrics()));
 
         a.recycle();
 
@@ -92,13 +93,19 @@ public class AnimButton extends RelativeLayout {
         LayoutInflater.from(context).inflate(R.layout.fm_button_progress, this, true);
         mProgress = (ProgressBar) findViewById(R.id.pb_button);
         setProgressDrawable(context);
-        mTarget = (Button) findViewById(R.id.button);
+        mTarget = (CustomButton) findViewById(R.id.button);
         setWrapper(mTarget);
         buildDrawableState();
-
         if (mStartText != null && mStartText.length() > 0) {
             mTarget.setText(mStartText);
         }
+        //set the button animation
+        mTarget.setOnAnimClickListener(new com.example.animbutton.OnAnimClickListener() {
+            @Override
+            public void animStart() {
+                startAnimation();
+            }
+        });
     }
 
     /**
@@ -118,7 +125,7 @@ public class AnimButton extends RelativeLayout {
         drawable.addState(mNormalState, normalDrawable);
         mTarget.setBackground(drawable);
         mTarget.setTextColor(mTextColor);
-        mTarget.setTextSize(TypedValue.COMPLEX_UNIT_PX,mTextSize);
+        mTarget.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
     }
 
     /**
@@ -299,8 +306,13 @@ public class AnimButton extends RelativeLayout {
         mTarget.setOnClickListener(l);
     }
 
+
     public void setEndText(String endText) {
         mEndText = endText;
         initErrorAnim();
+    }
+
+    interface OnAnimClickListener extends OnClickListener {
+
     }
 }
