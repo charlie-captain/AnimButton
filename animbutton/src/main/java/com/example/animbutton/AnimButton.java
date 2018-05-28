@@ -60,6 +60,8 @@ public class AnimButton extends RelativeLayout {
     private int mProgressColor;
     private int mTextColor;
 
+    private Context mContext;
+
 
     public AnimButton(Context context) {
         this(context, null);
@@ -80,25 +82,21 @@ public class AnimButton extends RelativeLayout {
         mProgressColor = a.getColor(R.styleable.AnimButton_color_progress, ContextCompat.getColor(context, R.color.colorAccent));
         mTextColor = a.getColor(R.styleable.AnimButton_color_text, ContextCompat.getColor(context, R.color.colorAccent));
         mRadius = a.getFloat(R.styleable.AnimButton_button_radius, 0);
-//         = (int) a.getDimension(R.styleable.AnimButton_text_size, 15);
-        mTextSize = a.getDimensionPixelSize(R.styleable.AnimButton_size_text,
-                (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP,
-                        15,
-                        getResources().getDisplayMetrics()));
+        //         = (int) a.getDimension(R.styleable.AnimButton_text_size, 15);
+        mTextSize = a.getDimensionPixelSize(R.styleable.AnimButton_size_text, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
 
         a.recycle();
+        mContext = context;
 
         //inflate layout
         LayoutInflater.from(context).inflate(R.layout.fm_button_progress, this, true);
         mProgress = (ProgressBar) findViewById(R.id.pb_button);
-        setProgressDrawable(context);
+        buildProgressDrawable();
+
         mTarget = (CustomButton) findViewById(R.id.button);
         setWrapper(mTarget);
         buildDrawableState();
-        if (mStartText != null && mStartText.length() > 0) {
-            mTarget.setText(mStartText);
-        }
+        setButtonText();
         //set the button animation
         mTarget.setOnAnimClickListener(new com.example.animbutton.OnAnimClickListener() {
             @Override
@@ -107,6 +105,7 @@ public class AnimButton extends RelativeLayout {
             }
         });
     }
+
 
     /**
      * change the button drawable
@@ -130,18 +129,25 @@ public class AnimButton extends RelativeLayout {
 
     /**
      * change the progressbar drawable     * Build.VERSION >= 21(5.0)
-     *
-     * @param context
      */
-    private void setProgressDrawable(Context context) {
+    private void buildProgressDrawable() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            RotateDrawable rotateDrawable = (RotateDrawable) ContextCompat.getDrawable(context, R.drawable.bg_progress);
+            RotateDrawable rotateDrawable = (RotateDrawable) ContextCompat.getDrawable(mContext, R.drawable.bg_progress);
             GradientDrawable gradientDrawable = (GradientDrawable) rotateDrawable.getDrawable();
             if (gradientDrawable != null) {
                 gradientDrawable.setColors(new int[]{mProgressColor, Color.WHITE});
                 rotateDrawable.setDrawable(gradientDrawable);
                 mProgress.setIndeterminateDrawable(rotateDrawable);
             }
+        }
+    }
+
+    /**
+     * 设置button字体
+     */
+    private void setButtonText() {
+        if (mStartText != null && mStartText.length() > 0) {
+            mTarget.setText(mStartText);
         }
     }
 
@@ -307,12 +313,55 @@ public class AnimButton extends RelativeLayout {
     }
 
 
+    interface OnAnimClickListener extends OnClickListener {
+
+
+    }
+
     public void setEndText(String endText) {
         mEndText = endText;
+    }
+
+    public void setStartText(String startText) {
+        mStartText = startText;
+        setButtonText();
+    }
+
+    public void setDuration(int duration) {
+        mDuration = duration;
+        initStartAnim();
         initErrorAnim();
     }
 
-    interface OnAnimClickListener extends OnClickListener {
+    public void setTextSize(int textSize) {
+        mTextSize = textSize;
+        buildDrawableState();
+    }
+
+    public void setRadius(float radius) {
+        mRadius = radius;
+        buildDrawableState();
+    }
+
+    public void setNormalColor(int normalColor) {
+        mNormalColor = normalColor;
+        buildDrawableState();
+
+    }
+
+    public void setPressedColor(int pressedColor) {
+        mPressedColor = pressedColor;
+        buildDrawableState();
+    }
+
+    public void setProgressColor(int progressColor) {
+        mProgressColor = progressColor;
+        buildProgressDrawable();
+    }
+
+    public void setTextColor(int textColor) {
+        mTextColor = textColor;
+        buildDrawableState();
 
     }
 }

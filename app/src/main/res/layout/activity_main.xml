@@ -13,14 +13,22 @@
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:button_radius="0"
         app:color_normal="@color/colorPrimary"
         app:color_pressed="@color/colorPrimaryDark"
         app:color_progress="@color/colorPrimaryDark"
         app:color_text="@color/white"
         app:end_text="error"
-        app:button_radius="0"
         app:start_text="login"
-        >
+    >
     </com.example.animbutton.AnimButton>
+
+
+    <Button android:id="@+id/btn_change" android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl"
+            android:text="Change"
+    />
 
 </RelativeLayout>
