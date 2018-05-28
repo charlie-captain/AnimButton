@@ -12,7 +12,7 @@
 1. 在app/build.gradle中添加下面一行代码: 
     ```
     dependencies {
-        compile 'com.example.thatnight:animbutton:1.5'
+        compile 'com.example.thatnight:animbutton:1.6'
     }
     ```
 
@@ -39,17 +39,30 @@
 
     ```
     private AnimButton mButton;
-    private ProgressBar mProgress;
-
+    private Button mBtnChange;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mButton = (AnimButton) findViewById(R.id.rl);
+        mBtnChange = (Button) findViewById(R.id.btn_change);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             	//do sth
+            }
+        });
+        
+        mBtnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mButton.setNormalColor(Color.GREEN);
+                mButton.setPressedColor(Color.BLUE);
+                mButton.setPressedColor(Color.BLACK);
+                mButton.setDuration(3000);
+                mButton.setStartText("改变了");
+                mButton.setEndText("改变错误");
             }
         });
     }
@@ -60,6 +73,9 @@
 
 ### 版本记录
 
+- #### 1.6 
+    - 开放更多设置（字体颜色，时长，控件颜色）
+    - 向上兼容
 - #### 1.5
 
   更新点击事件无需再调用startAnim()方法.
